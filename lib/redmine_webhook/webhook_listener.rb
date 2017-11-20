@@ -46,10 +46,18 @@ module RedmineWebhook
       Thread.start do
         webhooks.each do |webhook|
           begin
-            Faraday.post do |req|
-              req.url webhook.url
-              req.headers['Content-Type'] = 'application/json'
-              req.body = request_body
+            if webhook.url[0..4] == 'redis' then
+                pos = webhook.url.rindex('#')
+                redis_url = webhook.url[0..pos-1]
+                topic = webhook.url[pos+1..-1]
+                redis = Redis.new(url: redis_url)
+                redis.publish(topic, request_body)
+            else
+                Faraday.post do |req|
+                  req.url webhook.url
+                  req.headers['Content-Type'] = 'application/json'
+                  req.body = request_body
+                end
             end
           rescue => e
             Rails.logger.error e

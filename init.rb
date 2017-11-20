@@ -8,10 +8,10 @@ end
 
 Redmine::Plugin.register :redmine_webhook do
   name 'Redmine Webhook plugin'
-  author 'suer'
+  author 'suer, jack'
   description 'A Redmine plugin posts webhook on creating and updating tickets'
   version '0.0.2'
-  url 'https://github.com/suer/redmine_webhook'
+  url 'https://github.com/luojunqiang/redmine_webhook'
   author_url 'http://d.hatena.ne.jp/suer'
   permission :manage_hook, {:webhook_settings => [:show,:update,:create, :destroy]}, :require => :member
 end

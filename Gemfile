@@ -1,1 +1,2 @@
 gem 'faraday'
+gem 'redis'
